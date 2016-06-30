@@ -269,38 +269,52 @@ public class CircleMenu: UIButton {
     tapRotatedAnimation(0.3, isSelected: isShow)
   }
   
+  var disableCircularSelectionAnimation = false
+    
   func buttonHandler(sender: UIButton) {
     guard case let sender as CircleMenuButton = sender else {
       return
     }
     
     delegate?.circleMenu?(self, buttonWillSelected: sender, atIndex: sender.tag)
-    
-    let circle = CircleMenuLoader(radius: CGFloat(distance), strokeWidth: bounds.size.height, circleMenu: self,
-      color: sender.backgroundColor)
-    
-    if let container = sender.container { // rotation animation
-      sender.rotationLayerAnimation(container.angleZ + totalAngle, duration: duration)
-      container.superview?.bringSubviewToFront(container)
-    }
-    
-    if let aButtons = buttons {
-      circle.fillAnimation(duration, startAngle: -90 + startAngle + totalAngle / Float(aButtons.count) * Float(sender.tag))
-      circle.hideAnimation(0.5, delay: duration)
-      
-      hideCenterButton(duration: 0.3)
-      
-      buttonsAnimationIsShow(isShow: false, duration: 0, hideDelay: duration)
-      showCenterButton(duration: 0.525, delay: duration)
-      
-      if customNormalIconView != nil && customSelectedIconView != nil {
+
+    if disableCircularSelectionAnimation {
+        onTap()
+
         let dispatchTime: dispatch_time_t = dispatch_time(
-          DISPATCH_TIME_NOW,
-          Int64(duration * Double(NSEC_PER_SEC)))
+            DISPATCH_TIME_NOW,
+            Int64(duration * Double(NSEC_PER_SEC)))
         
         dispatch_after(dispatchTime, dispatch_get_main_queue(), {
-          self.delegate?.circleMenu?(self, buttonDidSelected: sender, atIndex: sender.tag)
+            self.delegate?.circleMenu?(self, buttonDidSelected: sender, atIndex: sender.tag)
         })
+    } else {
+      let circle = CircleMenuLoader(radius: CGFloat(distance), strokeWidth: bounds.size.height, circleMenu: self,
+                                      color: sender.backgroundColor)
+        
+      if let container = sender.container { // rotation animation
+          sender.rotationLayerAnimation(container.angleZ + totalAngle, duration: duration)
+          container.superview?.bringSubviewToFront(container)
+      }
+    
+      if let aButtons = buttons {
+        circle.fillAnimation(duration, startAngle: -90 + startAngle + totalAngle / Float(aButtons.count) * Float(sender.tag))
+        circle.hideAnimation(0.5, delay: duration)
+            
+        hideCenterButton(duration: 0.3)
+            
+        buttonsAnimationIsShow(isShow: false, duration: 0, hideDelay: duration)
+        showCenterButton(duration: 0.525, delay: duration)
+            
+        if customNormalIconView != nil && customSelectedIconView != nil {
+          let dispatchTime: dispatch_time_t = dispatch_time(
+            DISPATCH_TIME_NOW,
+            Int64(duration * Double(NSEC_PER_SEC)))
+            
+              dispatch_after(dispatchTime, dispatch_get_main_queue(), {
+                self.delegate?.circleMenu?(self, buttonDidSelected: sender, atIndex: sender.tag)
+          })
+        }
       }
     }
   }
