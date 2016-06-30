@@ -97,10 +97,12 @@ public class CircleMenu: UIButton {
   /// The object that acts as the delegate of the circle menu.
   @IBOutlet weak public var delegate: AnyObject? //CircleMenuDelegate?
   
-  var buttons: [UIButton]?
   public var customNormalIconView: UIImageView!
   public var customSelectedIconView: UIImageView!
-  
+  public var disableCircularSelectionAnimation = false
+
+  var buttons: [UIButton]?
+
   var totalAngle: Float {
     return endAngle - startAngle
   }
@@ -268,8 +270,6 @@ public class CircleMenu: UIButton {
     tapBounceAnimation()
     tapRotatedAnimation(0.3, isSelected: isShow)
   }
-  
-  var disableCircularSelectionAnimation = false
     
   func buttonHandler(sender: UIButton) {
     guard case let sender as CircleMenuButton = sender else {
