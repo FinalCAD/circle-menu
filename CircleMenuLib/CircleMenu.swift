@@ -98,9 +98,8 @@ public class CircleMenu: UIButton {
   @IBOutlet weak public var delegate: AnyObject? //CircleMenuDelegate?
   
   var buttons: [UIButton]?
-  
-  private var customNormalIconView: UIImageView!
-  private var customSelectedIconView: UIImageView!
+  var customNormalIconView: UIImageView!
+  var customSelectedIconView: UIImageView!
   
   var totalAngle: Float {
     return endAngle - startAngle
@@ -157,16 +156,7 @@ public class CircleMenu: UIButton {
   
   private func commonInit() {
     addActions()
-    
-    if self.endAngle < self.startAngle {
-      swap(&self.startAngle, &self.endAngle)
-    }
-    
-    if endAngle - startAngle > 360 {
-      endAngle = 360
-      startAngle = 0
-    }
-    
+
     customNormalIconView = addCustomImageView(state: .Normal)
     
     customSelectedIconView = addCustomImageView(state: .Selected)
