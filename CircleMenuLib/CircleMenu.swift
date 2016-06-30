@@ -98,8 +98,8 @@ public class CircleMenu: UIButton {
   @IBOutlet weak public var delegate: AnyObject? //CircleMenuDelegate?
   
   var buttons: [UIButton]?
-  var customNormalIconView: UIImageView!
-  var customSelectedIconView: UIImageView!
+  public var customNormalIconView: UIImageView!
+  public var customSelectedIconView: UIImageView!
   
   var totalAngle: Float {
     return endAngle - startAngle
