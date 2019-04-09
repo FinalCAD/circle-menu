@@ -34,7 +34,7 @@ internal class CircleMenuButton: UIButton {
     init(size: CGSize, circleMenu: CircleMenu, distance: Float, angle: Float = 0) {
         super.init(frame: CGRect(origin: CGPoint(x: 0, y: 0), size: size))
 
-        self.backgroundColor = UIColor(colorLiteralRed: 0.79, green: 0.24, blue: 0.27, alpha: 1)
+        self.backgroundColor = UIColor(red: 0.79, green: 0.24, blue: 0.27, alpha: 1)
         self.layer.cornerRadius = size.height / 2.0
 
         let aContainer = createContainer(CGSize(width: size.width, height:CGFloat(distance)), circleMenu: circleMenu)
@@ -122,7 +122,7 @@ internal class CircleMenuButton: UIButton {
             UIView.animate(
                 withDuration: duration,
                 delay: delay,
-                options: UIViewAnimationOptions(),
+                options: UIView.AnimationOptions(),
                 animations: { () -> Void in
                     container.layer.transform = rotateTransform
                 },
@@ -137,7 +137,7 @@ internal class CircleMenuButton: UIButton {
 
 internal extension CircleMenuButton {
 
-    internal func showAnimation(distance: Float, duration: Double, delay: Double = 0) {
+    func showAnimation(distance: Float, duration: Double, delay: Double = 0) {
 
         guard let container = self.container else {
             fatalError()
@@ -159,7 +159,7 @@ internal extension CircleMenuButton {
             delay: delay,
             usingSpringWithDamping: 0.7,
             initialSpringVelocity: 0,
-            options: UIViewAnimationOptions.curveLinear,
+            options: UIView.AnimationOptions.curveLinear,
             animations: { () -> Void in
                 container.layoutIfNeeded()
                 self.transform = CGAffineTransform(scaleX: 1.0, y: 1.0)
@@ -168,7 +168,7 @@ internal extension CircleMenuButton {
         })
     }
 
-    internal func hideAnimation(distance: Float, duration: Double, delay: Double = 0) {
+    func hideAnimation(distance: Float, duration: Double, delay: Double = 0) {
 
         guard let container = self.container else {
             fatalError()
@@ -183,7 +183,7 @@ internal extension CircleMenuButton {
         UIView.animate(
             withDuration: duration,
             delay: delay,
-            options: UIViewAnimationOptions.curveEaseIn,
+            options: UIView.AnimationOptions.curveEaseIn,
             animations: { () -> Void in
                 container.layoutIfNeeded()
                 self.transform = CGAffineTransform(scaleX: 0.01, y: 0.01)
@@ -196,7 +196,7 @@ internal extension CircleMenuButton {
         })
     }
 
-    internal func changeDistance(_ distance: CGFloat, animated: Bool, duration: Double = 0, delay: Double = 0) {
+    func changeDistance(_ distance: CGFloat, animated: Bool, duration: Double = 0, delay: Double = 0) {
 
         guard let container = self.container else {
             fatalError()
@@ -213,7 +213,7 @@ internal extension CircleMenuButton {
         UIView.animate(
             withDuration: duration,
             delay: delay,
-            options: UIViewAnimationOptions.curveEaseIn,
+            options: UIView.AnimationOptions.curveEaseIn,
             animations: { () -> Void in
                 container.layoutIfNeeded()
             },
@@ -222,7 +222,7 @@ internal extension CircleMenuButton {
 
     // MARK: layer animation
 
-    internal func rotationLayerAnimation(_ angle: Float, duration: Double) {
+    func rotationLayerAnimation(_ angle: Float, duration: Double) {
         if let aContainer = container {
             rotationLayerAnimation(aContainer, angle: angle, duration: duration)
         }
@@ -231,12 +231,12 @@ internal extension CircleMenuButton {
 
 internal extension UIView {
 
-    internal func rotationLayerAnimation(_ view: UIView, angle: Float, duration: Double) {
+    func rotationLayerAnimation(_ view: UIView, angle: Float, duration: Double) {
 
         let rotation = Init(CABasicAnimation(keyPath: "transform.rotation")) {
             $0.duration       = TimeInterval(duration)
             $0.toValue        = (angle.degrees)
-            $0.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            $0.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         }
         view.layer.add(rotation, forKey: "rotation")
     }

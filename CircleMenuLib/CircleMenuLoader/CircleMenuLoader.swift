@@ -65,7 +65,7 @@ internal class CircleMenuLoader: UIView {
             arcCenter: CGPoint(x: radius, y: radius),
             radius: CGFloat(radius) - strokeWidth / 2.0,
             startAngle: CGFloat(0),
-            endAngle:CGFloat(M_PI * 2),
+            endAngle:CGFloat(Double.pi * 2),
             clockwise: true)
 
         let circle = Init(CAShapeLayer()) {
@@ -143,7 +143,7 @@ internal class CircleMenuLoader: UIView {
             $0.duration       = CFTimeInterval(duration)
             $0.fromValue      = (0)
             $0.toValue        = (1)
-            $0.timingFunction = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseInEaseOut)
+            $0.timingFunction = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeInEaseOut)
         }
         circle?.add(animation, forKey: nil)
     }
@@ -153,9 +153,9 @@ internal class CircleMenuLoader: UIView {
         let scale = Init(CABasicAnimation(keyPath: "transform.scale")) {
             $0.toValue             = 1.2
             $0.duration            = CFTimeInterval(duration)
-            $0.fillMode            = kCAFillModeForwards
+            $0.fillMode            = CAMediaTimingFillMode.forwards
             $0.isRemovedOnCompletion = false
-            $0.timingFunction      = CAMediaTimingFunction(name: kCAMediaTimingFunctionEaseOut)
+            $0.timingFunction      = CAMediaTimingFunction(name: CAMediaTimingFunctionName.easeOut)
             $0.beginTime           = CACurrentMediaTime() + delay
         }
         layer.add(scale, forKey: nil)
@@ -163,7 +163,7 @@ internal class CircleMenuLoader: UIView {
         UIView.animate(
             withDuration: CFTimeInterval(duration),
             delay: delay,
-            options: UIViewAnimationOptions.curveEaseIn,
+            options: UIView.AnimationOptions.curveEaseIn,
             animations: { () -> Void in
                 self.alpha = 0
             },
